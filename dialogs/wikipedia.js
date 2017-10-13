@@ -57,7 +57,7 @@ function sendRequest(word, session) {
             } else {
                 // log.console("wiki_response", response);
                 // log.console("wiki_body", body);
-                next(null, body)
+                next(null, response)
             }
         })
     }], (err, results) => {
@@ -65,6 +65,7 @@ function sendRequest(word, session) {
             session.send("えらー");
             log.console("wikipedia_error", err)
         } else {
+            log.console("wiki_results", results);
             return results[0]
         }
     })
