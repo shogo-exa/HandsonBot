@@ -7,6 +7,7 @@ const async = require('async');
 var lib = new builder.Library('wikipedia');
 
 const triggerRegExp = ["(.+)について(教えて|おしえて)$", "^wiki( |　)(.+)"]
+const ExtractionRegExp = ["について(教えて|おしえて)$", "^wiki( |　)"]
 
 lib.dialog('search', [
     (session, args, next) => {
@@ -18,7 +19,7 @@ lib.dialog('search', [
 });
 
 function ExtractionSearchWord(message) {
-    for (var regExp of triggerRegExp) {
+    for (var regExp of ExtractionRegExp) {
         message = message.replace(RegExp(regExp), "");
     }
     log.console("search_message", message);
