@@ -35,16 +35,18 @@ module.exports.createLibrary = function () {
 
 function sendRequest(word, session) {
     var options = {
-        url: 'http://wikipedia.simpleapi.net/api',
+        url: 'https://ja.wikipedia.org/w/api.php',
         method: 'get',
         headers: {
             'Content-Type': 'application/json'
         },
         json: true,
         form: {
-            keyword: word
+            action: "opensearch",
+            search: word
         }
     }
+    var result;
     async.series([(next) => {
         request(options, function (error, response, body) {
             if (error) {
@@ -61,7 +63,8 @@ function sendRequest(word, session) {
             log.console("wikipedia_error", err)
         } else {
             log.console("wiki_results", results);
-            return results[0]
+            result = results[0];
         }
     })
+    return result;
 }
