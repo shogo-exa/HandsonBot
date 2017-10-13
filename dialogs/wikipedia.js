@@ -63,7 +63,7 @@ function sendRequest(word, session) {
             session.send("えらー");
             log.console("wikipedia_error", err)
         } else {
-            session.encConversation(response);
+            session.encConversation(results[0]);
         }
     })
 }
