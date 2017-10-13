@@ -48,7 +48,7 @@ function sendRequest(word, session) {
             titles: word
         }
     }
-    async.series((next) => {
+    async.series([(next) => {
         request(options, function (error, response, body) {
             if (error) {
                 next(error, null);
@@ -58,7 +58,7 @@ function sendRequest(word, session) {
                 next(null, response);
             }
         })
-    }, (err, results) => {
+    }], (err, results) => {
         if (err) {
             session.send("えらー");
             log.console("wikipedia_error", err)
