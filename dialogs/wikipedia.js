@@ -12,7 +12,8 @@ const ExtractionRegExp = ["について(教えて|おしえて)$", "^wiki( |　)
 lib.dialog('search', [
     (session, args, next) => {
         const searchWord = ExtractionSearchWord(session.message.text);
-        sendRequest(searchWord, session);
+        var result = sendRequest(searchWord, session);
+        session.send(result);
     }
 ]).triggerAction({
     matches: [RegExp(triggerRegExp[0]), RegExp(triggerRegExp[1])]
@@ -55,7 +56,7 @@ function sendRequest(word, session) {
             } else {
                 log.console("wiki_response", response);
                 log.console("wiki_body", body);
-                next(null, response);
+                next(null, response)
             }
         })
     }], (err, results) => {
@@ -63,7 +64,7 @@ function sendRequest(word, session) {
             session.send("えらー");
             log.console("wikipedia_error", err)
         } else {
-            session.endConversation(results[0]);
+            return results[0]
         }
     })
 }
