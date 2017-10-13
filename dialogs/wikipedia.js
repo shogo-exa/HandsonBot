@@ -6,7 +6,7 @@ const async = require('async');
 
 var lib = new builder.Library('wikipedia');
 
-const triggerRegExp = ["(.+)を(教えて|おしえて)$", "^wiki( |　)(.+)"]
+const triggerRegExp = ["(.+)について(教えて|おしえて)$", "^wiki( |　)(.+)"]
 
 lib.dialog('search', [
     (session, args, next) => {
