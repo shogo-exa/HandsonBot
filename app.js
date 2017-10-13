@@ -2,12 +2,6 @@
 const restify = require('restify');
 const builder = require('botbuilder');
 const log = require('./log')
-
-// dialog
-const wikipedia = require('./dialogs/wikipedia').createLibrary();
-const q20 = require('./dialogs/20Q').createLibrary();
-const snowWhite = require('./dialogs/SnowWhite').createLibrary();
-
 // endregion
 
 //region ***** Server セットアップ *****/
@@ -29,6 +23,10 @@ var bot = module.exports = new builder.UniversalBot(connector, [
 
     },
 ]);
+bot.library(require('./dialogs/wikipedia').createLibrary());
+bot.library(require('./dialogs/20Q').createLibrary());
+bot.library(require('./dialogs/SnowWhite').createLibrary());
+
 
 bot.on('conversationUpdate', function (message) {});
 //endregion
