@@ -47,6 +47,7 @@ function sendRequest(word, session) {
         }
     }
     request(options, function (error, response, body) {
+        log.console("wiki_error", error);
         log.console("wiki_response", response);
         log.console("wiki_body", body);
     })
