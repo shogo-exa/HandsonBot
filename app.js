@@ -12,7 +12,9 @@ const snowWhite = require('./dialogs/SnowWhite').createLibrary();
 
 //region ***** Server セットアップ *****/
 var server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978);
+server.listen(process.env.port || process.env.PORT || 3978, () => {
+    console.log("Server Start");
+});
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID, // MBFPortalに作成したボットのID
     appPassword: process.env.MICROSOFT_APP_PASSWORD // MBFPortalに作成したボットのPassword
