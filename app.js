@@ -1,11 +1,12 @@
 // region ***** require *****
-var restify = require('restify');
-var builder = require('botbuilder');
+const restify = require('restify');
+const builder = require('botbuilder');
+const log = require('log')
 
 // dialog
-var wikipedia = require('wikipedia').createLibrary();
-var q20 = require('20Q').createLibrary();
-var snowWhite = require('SnowWhite').createLibrary();
+const wikipedia = require('wikipedia').createLibrary();
+const q20 = require('20Q').createLibrary();
+const snowWhite = require('SnowWhite').createLibrary();
 
 // endregion
 
