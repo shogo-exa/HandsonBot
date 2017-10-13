@@ -35,19 +35,14 @@ module.exports.createLibrary = function () {
 
 function sendRequest(word, session) {
     var options = {
-        url: 'https://ja.wikipedia.org/w/api.php',
+        url: 'http://wikipedia.simpleapi.net/api',
         method: 'get',
         headers: {
             'Content-Type': 'application/json'
         },
         json: true,
         form: {
-            format: 'json',
-            action: 'query',
-            prop: 'info',
-            exintro: '',
-            explaintext: '',
-            titles: word
+            keyword: word
         }
     }
     async.series([(next) => {
