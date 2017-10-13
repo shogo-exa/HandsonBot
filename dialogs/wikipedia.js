@@ -13,6 +13,7 @@ lib.dialog('search', [
     (session, args, next) => {
         const searchWord = ExtractionSearchWord(session.message.text);
         var result = sendRequest(searchWord, session);
+        log.console("wiki_result", result);
         session.send(result);
     }
 ]).triggerAction({
@@ -54,9 +55,9 @@ function sendRequest(word, session) {
             if (error) {
                 next(error, null);
             } else {
-                log.console("wiki_response", response);
-                log.console("wiki_body", body);
-                next(null, response)
+                // log.console("wiki_response", response);
+                // log.console("wiki_body", body);
+                next(null, body)
             }
         })
     }], (err, results) => {
