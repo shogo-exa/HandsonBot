@@ -42,15 +42,28 @@ function sendRequest(word, session) {
         form: {
             format: 'json',
             action: 'query',
-            prop: 'extracts',
+            prop: 'info',
             exintro: '',
             explaintext: '',
             titles: word
         }
     }
-    request(options, function (error, response, body) {
-        log.console("wiki_error", error);
-        log.console("wiki_response", response);
-        log.console("wiki_body", body.query);
+    async.series((next) => {
+        request(options, function (error, response, body) {
+            if (error) {
+                next(error, null);
+            } else {
+                log.console("wiki_response", response);
+                log.console("wiki_body", body);
+                next(null, response);
+            }
+        })
+    }, (err, results) => {
+        if (err) {
+            session.send("えらー");
+            log.console("wikipedia_error", err)
+        } else {
+            session.encConversation(response);
+        }
     })
 }
