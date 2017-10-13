@@ -1,8 +1,7 @@
 const builder = require('botbuilder');
-const loger = require('./log.js');
+const log = require('../log.js');
 const request = require('request');
 const async = require('async');
-const log = require('../log');
 
 
 var lib = new builder.Library('wikipedia');

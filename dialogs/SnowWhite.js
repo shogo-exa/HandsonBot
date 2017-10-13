@@ -1,5 +1,5 @@
 const builder = require('botbuilder');
-const loger = require('./log.js');
+const log = require('../log.js');
 
 var lib = new builder.Library('SnowWhite');
 

@@ -1,7 +1,7 @@
 // region ***** require *****
 const restify = require('restify');
 const builder = require('botbuilder');
-const log = require('log')
+const log = require('./log')
 
 // dialog
 const wikipedia = require('wikipedia').createLibrary();
