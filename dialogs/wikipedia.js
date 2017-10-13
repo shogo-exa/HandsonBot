@@ -12,7 +12,7 @@ const ExtractionRegExp = ["について(教えて|おしえて)$", "^wiki( |　)
 lib.dialog('search', [
     (session, args, next) => {
         const searchWord = ExtractionSearchWord(session.message.text);
-        var result = sendRequest(searchWord, session);
+        var result = getWikipedia(searchWord, session);
         log.console("wiki_result", result);
         session.send(result);
     }
@@ -29,11 +29,8 @@ function ExtractionSearchWord(message) {
     return message;
 }
 
-module.exports.createLibrary = function () {
-    return lib.clone();
-};
-
-function sendRequest(word, session) {
+function getWikipedia(word, session) {
+    console.log("はじまり")
     var options = {
         url: 'https://ja.wikipedia.org/w/api.php',
         method: 'get',
@@ -66,5 +63,12 @@ function sendRequest(word, session) {
             result = results[0];
         }
     })
+    console.log("おわり")
     return result;
 }
+
+
+
+module.exports.createLibrary = function () {
+    return lib.clone();
+};
