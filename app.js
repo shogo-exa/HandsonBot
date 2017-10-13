@@ -4,9 +4,9 @@ const builder = require('botbuilder');
 const log = require('./log')
 
 // dialog
-const wikipedia = require('wikipedia').createLibrary();
-const q20 = require('20Q').createLibrary();
-const snowWhite = require('SnowWhite').createLibrary();
+const wikipedia = require('./dialogs/wikipedia').createLibrary();
+const q20 = require('./dialogs/20Q').createLibrary();
+const snowWhite = require('./dialogs/SnowWhite').createLibrary();
 
 // endregion
 
