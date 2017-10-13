@@ -18,6 +18,7 @@ lib.dialog('search', [
 });
 
 function ExtractionSearchWord(message) {
+    log.console("message", message);
     for (var regExp of triggerRegExp) {
         message = message.replace(RegExp(regExp), "");
     }
