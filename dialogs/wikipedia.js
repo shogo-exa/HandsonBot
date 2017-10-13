@@ -18,10 +18,11 @@ lib.dialog('search', [
 });
 
 function ExtractionSearchWord(message) {
-    log.console("message", message);
     for (var regExp of triggerRegExp) {
         message = message.replace(RegExp(regExp), "");
     }
+    log.console("search_message", message);
+
     return message;
 }
 
@@ -49,6 +50,6 @@ function sendRequest(word, session) {
     request(options, function (error, response, body) {
         log.console("wiki_error", error);
         log.console("wiki_response", response);
-        log.console("wiki_body", body);
+        log.console("wiki_body", body.query);
     })
 }
