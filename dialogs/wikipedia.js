@@ -32,11 +32,12 @@ lib.dialog('search', [
                 format: 'json',
                 action: 'query',
                 prop: "extracts",
-                // exintro: "true", // 値に関係なく、パラメーターが設定されていれば真と判定される
-                explaintext: "true", // 値に関係なく、パラメーターが設定されていれば真と判定される
+                exintro: "true", // booleanの指定に値は関係なく、パラメーターが設定されていれば真と判定される
+                explaintext: "true",
+                redirects: "true",
+                utf8: "true",
                 titles: searchWord
             }).end((err, res) => {
-                session.send(res);
                 log.log("superagent", res);
             })
     }
