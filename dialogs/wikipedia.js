@@ -38,7 +38,12 @@ lib.dialog('search', [
                 utf8: "true",
                 titles: searchWord
             }).end((err, res) => {
-                log.log("superagent", res);
+                var pages = res.text.query.pages;
+                var results = [];
+                for (var id in pages) {
+                    session.send(pages[id].title);
+                    session.send(pages[id].extract);
+                }
             })
     }
 ]).triggerAction({
