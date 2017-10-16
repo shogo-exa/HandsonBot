@@ -18,11 +18,7 @@ server.post('/', connector.listen()); // 例：https://xxx.co.jp/
 //endregion
 
 //region ***** Bot セットアップ ***** /
-var bot = module.exports = new builder.UniversalBot(connector, [
-    (session, args, next) => {
-
-    },
-]);
+var bot = module.exports = new builder.UniversalBot(connector);
 bot.library(require('./dialogs/wikipedia').createLibrary());
 bot.library(require('./dialogs/20Q').createLibrary());
 bot.library(require('./dialogs/SnowWhite').createLibrary());

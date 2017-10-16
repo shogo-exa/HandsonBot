@@ -51,7 +51,7 @@ lib.dialog('search', [
 
                 }
             })
-        session.send("test");
+        session.endConversation("test");
     }
 ]).triggerAction({
     matches: [RegExp(triggerRegExp[0]), RegExp(triggerRegExp[1])]
