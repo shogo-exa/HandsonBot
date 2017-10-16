@@ -32,8 +32,8 @@ lib.dialog('search', [
                 format: 'json',
                 action: 'query',
                 prop: "extracts",
-                exintro: true,
-                explaintext: true,
+                // exintro: "true", // 値に関係なく、パラメーターが設定されていれば真と判定される
+                explaintext: "true", // 値に関係なく、パラメーターが設定されていれば真と判定される
                 titles: searchWord
             }).end((err, res) => {
                 session.send(res);
