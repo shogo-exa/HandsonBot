@@ -30,8 +30,11 @@ lib.dialog('search', [
         request.get('https://ja.wikipedia.org/w/api.php')
             .query({
                 format: 'json',
-                action: 'opensearch',
+                action: 'query',
+                prop: "extracts",
+                exintro: true,
                 search: searchWord
+
             }).end((err, res) => {
                 session.send(res);
                 log.log("superagent", res);
