@@ -39,8 +39,10 @@ lib.dialog('search', [
                 titles: searchWord
             }).end((err, res) => {
                 var pages = JSON.parse(res.text).query.pages;
+                log.log("wiki_parse", pages)
                 var results = [];
                 for (var id in pages) {
+                    log.log("wiki_" + id, pages[id]);
                     session.send(pages[id].title);
                     session.send(pages[id].extract);
                 }
