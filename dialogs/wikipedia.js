@@ -33,8 +33,8 @@ lib.dialog('search', [
                 action: 'query',
                 prop: "extracts",
                 exintro: true,
-                search: searchWord
-
+                explaintext: true,
+                titles: searchWord
             }).end((err, res) => {
                 session.send(res);
                 log.log("superagent", res);
