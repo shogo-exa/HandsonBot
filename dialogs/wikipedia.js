@@ -33,35 +33,9 @@ lib.dialog('search', [
                 action: 'opensearch',
                 search: searchWord
             }).end((err, res) => {
+                session.send(res);
                 log.log("superagent", res);
             })
-        // var option = apiInfo;
-        // option.form.search = searchWord;
-        // async.series([(next) => {
-        //     // wikipediaのapiへリクエストを送信
-        //     request(option, function (error, response, body) {
-        //         if (error) {
-        //             next(error, null);
-        //         } else {
-        //             // log.console("wiki_response", response);
-        //             // log.console("wiki_body", body);
-        //             next(null, response)
-        //         }
-        //     })
-
-        // }, (next) => {
-        //     // 結果を取得して確認
-        //     if (err) {
-        //         session.send("えらー");
-        //         log.console("wikipedia_error", err)
-        //     } else {
-        //         log.console("wiki_results", results);
-        //     }
-
-        // }], (err, results) => {
-        //     // 結果をユーザーに送信
-        //     session.send(results);
-        // })
     }
 ]).triggerAction({
     matches: [RegExp(triggerRegExp[0]), RegExp(triggerRegExp[1])]
