@@ -34,8 +34,8 @@ lib.dialog('search', [
                 for (var id in pages) {
                     session.send(pages[id].title);
                     session.send(pages[id].extract);
-
                 }
+                session.endConversation();
             })
     }
 ]).triggerAction({
