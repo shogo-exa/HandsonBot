@@ -19,11 +19,25 @@ server.post('/', connector.listen()); // 例：https://xxx.co.jp/
 
 //region ***** Bot セットアップ ***** /
 var bot = module.exports = new builder.UniversalBot(connector, [
-    (session, args, next) => {}
+    (session, args, next) => {
+        if (session.userData.isKnown) {
+            session.beginDialog("firstTime");
+        }
+    }
 ]);
+bot.dialog("firstTime", [
+    (session, args, next) => {
+        session.userData.isKnown = true;
+        session.send("はじめまして！");
+        session.send("私には様々な機能が実装されています。")
+        session.send("どんな機能を持っているかを知りたい場合は「help」と入力してください。")
+    }
+]);
+
 bot.library(require('./dialogs/wikipedia').createLibrary());
 bot.library(require('./dialogs/20Q').createLibrary());
 bot.library(require('./dialogs/SnowWhite').createLibrary());
+bot.library(require('./dialogs/help').createLibrary());
 
 
 bot.on('conversationUpdate', function (message) {});
