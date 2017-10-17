@@ -19,10 +19,7 @@ server.post('/', connector.listen()); // 例：https://xxx.co.jp/
 
 //region ***** Bot セットアップ ***** /
 var bot = module.exports = new builder.UniversalBot(connector, [
-    (session, args, next) => {
-        session.send("はじまり");
-        session.endConversation("おわり")
-    }
+    (session, args, next) => {}
 ]);
 bot.library(require('./dialogs/wikipedia').createLibrary());
 bot.library(require('./dialogs/20Q').createLibrary());
