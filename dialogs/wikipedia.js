@@ -9,17 +9,6 @@ var lib = new builder.Library('wikipedia');
 
 const triggerRegExp = ["(.+)について(教えて|おしえて)$", "^wiki( |　)(.+)"]
 const ExtractionRegExp = ["について(教えて|おしえて)$", "^wiki( |　)"]
-const apiInfo = {
-    url: 'https://ja.wikipedia.org/w/api.php',
-    method: 'get',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    json: true,
-    form: {
-        action: "opensearch",
-    }
-}
 
 lib.dialog('search', [
     (session, args, next) => {
@@ -38,20 +27,16 @@ lib.dialog('search', [
                 utf8: "true",
                 titles: searchWord
             }).end((err, res) => {
-
                 // 検索結果は文字列として処理されているのでJSON形式に変換する
                 var pages = JSON.parse(res.text).query.pages;
                 log.log("wiki_parse", pages)
                 var results = [];
                 for (var id in pages) {
-                    log.log("wiki_" + id, pages[id]);
-                    session.send("test");
                     session.send(pages[id].title);
                     session.send(pages[id].extract);
 
                 }
             })
-        session.endConversation("test");
     }
 ]).triggerAction({
     matches: [RegExp(triggerRegExp[0]), RegExp(triggerRegExp[1])]
