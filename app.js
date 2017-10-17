@@ -20,6 +20,11 @@ server.post('/', connector.listen()); // 例：https://xxx.co.jp/
 //region ***** Bot セットアップ ***** /
 var bot = module.exports = new builder.UniversalBot(connector, [
     (session, args, next) => {
+        if (session.message.text == "オブビリエイト") {
+            if (session.userData) delete session.userData;
+            session.endConversation();
+            return;
+        }
         if (session.userData.isKnown) {
             session.beginDialog("firstTime");
         }
