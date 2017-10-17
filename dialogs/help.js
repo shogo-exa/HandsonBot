@@ -8,8 +8,10 @@ const triggerRegExp = "^help$"
 lib.dialog('/', [
     (session, args, next) => {
         session.send("私はこんなことが出来ます。");
-        chatData.attachmentLayout(builder.AttachmentLayout.carousel);
-        chatData.attachments([
+
+        var replyData = new builder.Message(session);
+        replyData.attachmentLayout(builder.AttachmentLayout.carousel);
+        replyData.attachments([
             new builder.HeroCard(session)
             .title('私が持つ機能')
             .subtitle('help')
@@ -20,6 +22,7 @@ lib.dialog('/', [
                 builder.CardAction.imBack(session, 'weather', '今日の天気')
             ])
         ]);
+        session.send(replyData);
     },
     (session, res, next) => {
         switch (res.response) {
