@@ -26,7 +26,7 @@ lib.dialog('help_global', [
         //         builder.CardAction.imBack(session, 'weather', '今日の天気')
         //     ])
         // ]);
-        builder.Prompts.choice(session, "更に機能の詳細を知りたい場合は選択してください", replyData);
+        builder.Prompts.choice(session, "更に機能の詳細を知りたい場合は選択してください", func);
     },
     (session, res, next) => {
         log.log("ユーザーが選んだ", res.response)
