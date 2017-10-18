@@ -30,8 +30,11 @@ lib.dialog('help_global', [
         }
     }
 ]).triggerAction({
-    matches: [RegExp(triggerRegExp)],
-    confirmPrompt: "私の機能一覧を表示します。現在の会話は終了しますがよろしいですか？"
+    matches: RegExp(triggerRegExp),
+    onSelectAction: (session, args, next) => {
+        log.log("triggerAction args", args);
+        session.beginDialog(args.action, args);
+    }
 });
 
 lib.dialog("help_wiki", [
