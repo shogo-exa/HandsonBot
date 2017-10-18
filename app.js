@@ -90,7 +90,7 @@ bot.customAction({
         log.log("Reservation_msg", message);
 
         // 予約を登録する
-        scheduler.scheduledJobs({
+        scheduler.scheduleJob({
             year: today.getFullYear(),
             month: today.getMonth(),
             day: today.getDay(),
