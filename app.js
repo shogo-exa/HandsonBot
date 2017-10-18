@@ -21,8 +21,7 @@ server.post('/', connector.listen()); // 例：https://xxx.co.jp/
 var bot = module.exports = new builder.UniversalBot(connector, [
     (session, args, next) => {
         if (session.message.text == "オブビリエイト") {
-
-            if (session.userData.isKnown) delete session.userData.isKnown;
+            if (session.userData.isKnown) session.userData = {};
             session.endConversation();
             return;
         }
@@ -34,9 +33,10 @@ var bot = module.exports = new builder.UniversalBot(connector, [
 bot.dialog("firstTime", [
     (session, args, next) => {
         session.userData.isKnown = true;
+        session.save();
         session.send("はじめまして！");
         session.send("私には様々な機能が実装されています。")
-        session.send("どんな機能を持っているかを知りたい場合は「help」と入力してください。")
+        session.endDialog("どんな機能を持っているかを知りたい場合は「help」と入力してください。")
     }
 ]);
 
