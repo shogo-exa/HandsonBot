@@ -78,9 +78,8 @@ lib.dialog("20Q_question", [
         // ゲームが正常に開始されている
         if (session.privateConversationData.hasOwnProperty("question_num")) {
             var question_num = session.privateConversationData.question_num
-            session.send("Q" + (question_num + 1));
-            session.send(question[question_num])
-            builder.Prompts.choice(session, "YES or NO", menu);
+            session.send("Q" + (question_num + 1) + question[question_num]);
+            builder.Prompts.choice(session, "YES or NO!", menu);
         } else {
             session.send("ゲームに問題が有りました。")
             session.endConversation("中止します");
