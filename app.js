@@ -72,6 +72,8 @@ bot.customAction({
 
         // 時分を抽出する
         var time = session.message.text.match(timeRegExp);
+        log.log("user_time", time);
+
         // 時間のみを抽出する
         var hour = time.match(/^([1-2]|)[0-9]/);
         // 分のみを抽出する
