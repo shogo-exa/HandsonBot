@@ -13,9 +13,7 @@ const func = [
 
 lib.dialog('help_global', [
     (session, args, next) => {
-        session.send("私はこんなことが出来ます。")
-        session.send("Wikipedia検索, 20Qで遊ぶ, 天気を")
-        builder.Prompts.choice(session, "知りたい機能を選んでください", func);
+        builder.Prompts.choice(session, "詳しく知りたい機能を選んでください", func);
     },
     (session, res, next) => {
         log.log("ユーザーが選んだ", res.response)
