@@ -91,9 +91,9 @@ lib.dialog("20Q_question", [
             session.privateConversationData.score += menu[results.response.entity].score;
             session.privateConversationData.question_num++;
             if (session.privateConversationData.question_num >= 5) {
-                session.endDialog("20Q_question");
+                session.endDialog();
             }
-            session.replaceDialog()
+            session.replaceDialog("20Q_question")
         }
     }
 ]);
