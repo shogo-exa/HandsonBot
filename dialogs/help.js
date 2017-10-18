@@ -5,28 +5,17 @@ var lib = new builder.Library('Help');
 
 const triggerRegExp = "^help$"
 
-const func = {
-    "wiki": "wiki",
-    "20Q": "wiki",
-    "weather": "weather"
-}
+const func = [
+    "wiki",
+    "20Q",
+    "weather"
+]
 
 lib.dialog('help_global', [
     (session, args, next) => {
-        // var replyData = new builder.Message(session);
-        // replyData.attachmentLayout(builder.AttachmentLayout.carousel);
-        // replyData.attachments([
-        //     new builder.HeroCard(session)
-        //     .title('私はこんなことが出来ます。')
-        //     .subtitle('help')
-        //     .text('更に機能の詳細を知りたい場合は選択してください')
-        //     .buttons([
-        //         builder.CardAction.imBack(session, 'wiki', 'wikipedia検索'),
-        //         builder.CardAction.imBack(session, '20Q', '20Qで遊ぶ'),
-        //         builder.CardAction.imBack(session, 'weather', '今日の天気')
-        //     ])
-        // ]);
-        builder.Prompts.choice(session, "更に機能の詳細を知りたい場合は選択してください", func);
+        session.send("私はこんなことが出来ます。")
+        session.send("Wikipedia検索, 20Qで遊ぶ, 天気を")
+        builder.Prompts.choice(session, "知りたい機能を選んでください", func);
     },
     (session, res, next) => {
         log.log("ユーザーが選んだ", res.response)
@@ -37,7 +26,6 @@ lib.dialog('help_global', [
             case "20Q":
                 session.replaceDialog("help_20Q")
                 break;
-
             case "weather":
                 session.replaceDialog("help_weather")
                 break;
