@@ -35,7 +35,7 @@ lib.dialog('search', [
                     session.send(pages[id].title);
                     session.send(pages[id].extract);
                 }
-                session.endConversation();
+                session.endDialog();
             })
     }
 ]).triggerAction({
