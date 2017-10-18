@@ -19,6 +19,7 @@ const menu = {
         score = -1
     }
 }
+const triggerRegExp = "^20Q$|^20q$"
 
 lib.dialog('20Q', [
     (session, args, next) => {
@@ -47,7 +48,9 @@ lib.dialog('20Q', [
             session.endConversation("外れました...");
         }
     }
-]).beginDialogAction("20QHelpAction", "wiki_20Q", {
+]).triggerAction({
+    matches: [RegExp(triggerRegExp)]
+}).beginDialogAction("20QHelpAction", "wiki_20Q", {
     matches: /^help$/i,
 });
 
