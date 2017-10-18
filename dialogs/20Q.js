@@ -13,10 +13,10 @@ const question = [
 
 const menu = {
     "YES": {
-        score = 1
+        score: 1
     },
     "NO": {
-        score = -1
+        score: -1
     }
 }
 const triggerRegExp = "^20Q$|^20q$"
