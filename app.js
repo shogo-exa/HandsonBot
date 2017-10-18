@@ -61,6 +61,8 @@ bot.on('conversationUpdate', function (message) {});
 bot.customAction({
     matches: /^remind ([1-2]|)[0-9]:[0-9][0-9] (.+)$/i,
     onSelectAction: (session, args, next) => {
+        log.log("userRequest", session.message.text);
+
         // メッセージから指定時間を抽出するための正規表現
         const timeRegExp = /([1-2]|)[0-9]:[0-9][0-9]/i;
 
@@ -84,7 +86,6 @@ bot.customAction({
         // リマインド時に使用するメッセージを抽出する
         var message = session.message.text.replace(msgExtractionRegExp, "");
 
-        log.log("userRequest", session.message.text);
         log.log("Reservation_time", today.toJSON());
         log.log("Reservation_msg", message);
 
