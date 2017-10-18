@@ -25,14 +25,15 @@ lib.dialog('20Q', [
     (session, args, next) => {
         // まだゲームは開始されていない
         session.send("ノートパソコンかガムを思い浮かべてください");
-        session.privateConversationData.question_num = 0;
-        session.privateConversationData.score = 0;
         builder.Prompts.choice(session, "準備はいいですか？", ["START", "CANCEL"]);
     },
     (session, res, next) => {
         switch (res.response.entity) {
             case "START":
                 session.send("始めます！");
+                session.privateConversationData.question_num = 0;
+                session.privateConversationData.score = 0;
+                session.save();
                 session.beginDialog("20Q_question");
                 break;
 
@@ -82,7 +83,8 @@ lib.dialog("20Q_question", [
             session.send(question[question_num])
             builder.Prompts.choice(session, "YES or NO", menu);
         } else {
-            session.replaceDialog("20Q");
+            session.send("ゲームに問題が有りました。")
+            session.endConversation("中止します");
         }
     },
     (session, results) => {
