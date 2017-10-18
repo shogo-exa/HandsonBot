@@ -63,7 +63,7 @@ lib.dialog('20Q', [
     matches: [RegExp(triggerRegExp)],
     confirmPrompt: "20Qゲームを始めますか？"
 
-}).beginDialogAction("20QHelpAction", "Help:20q_help", {
+}).beginDialogAction("20QHelpAction", "Help:help_20Q", {
     matches: /^help$/i,
 
 }).cancelAction('cancel20Q', "キャンセルしました", {
