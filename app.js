@@ -22,7 +22,6 @@ var bot = module.exports = new builder.UniversalBot(connector, [
     (session, args, next) => {
         if (session.message.text == "オブビリエイト") {
             session.userData = {};
-            session.save();
             session.endConversation();
             return;
         }
@@ -41,7 +40,6 @@ bot.dialog("firstTime", [
     (session, results, next) => {
         session.userData.name = results.response;
         session.userData.isKnown = true;
-        session.save();
 
         session.send(session.userData.name + "さん　よろしくお願いします！");
         session.endDialog("私が持つ機能を知りたい場合は「help」と入力してください");
