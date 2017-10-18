@@ -25,16 +25,27 @@ lib.dialog('20Q', [
     (session, args, next) => {
         // まだゲームは開始されていない
         session.send("ノートパソコンかガムを思い浮かべてください");
-        session.send("始めます！");
-        session.conversationData.question_num = 0;
-        session.conversationData.score = 0;
-        session.beginDialog("20Q_question");
+        session.privateConversationData.question_num = 0;
+        session.privateConversationData.score = 0;
+        builder.Prompts.choice(session, "準備はいいですか？", ["START", "CANCEL"]);
+    },
+    (session, res, next) => {
+        switch (res.response.entity) {
+            case "START":
+                session.send("始めます！");
+                session.beginDialog("20Q_question");
+                break;
+
+            case "CANCEL":
+                session.endConversation("中止します");
+                break;
+        }
     },
     (session, args, next) => {
-        if (session.conversationData.score > 0) {
+        if (session.privateConversationData.score > 0) {
             session.send("あなたがイメージしたのはガムですね！");
             builder.Prompts.choice(session, "YES or NO!", menu);
-        } else if (session.conversationData.score < 0) {
+        } else if (session.privateConversationData.score < 0) {
             session.send("あなたがイメージしたのはノートパソコンですね！");
             builder.Prompts.choice(session, "YES or NO!", menu);
         } else {
@@ -49,16 +60,24 @@ lib.dialog('20Q', [
         }
     }
 ]).triggerAction({
-    matches: [RegExp(triggerRegExp)]
+    matches: [RegExp(triggerRegExp)],
+    confirmPrompt: "20Qゲームを始めますか？"
+
 }).beginDialogAction("20QHelpAction", "wiki_20Q", {
     matches: /^help$/i,
+
+}).cancelAction('cancel20Q', "キャンセルしました", {
+    // キャンセルのトリガーとなるパターンを定義
+    matches: /^cancel|^stop|^end/i,
+    // キャンセルを再度確認する為にユーザーへ送信される文字列
+    confirmPrompt: "20Qを終了しますか？",
 });
 
 lib.dialog("20Q_question", [
     (session, args) => {
         // ゲームが正常に開始されている
-        if (session.conversationData.question_num) {
-            var question_num = session.conversationData.question_num
+        if (session.privateConversationData.question_num) {
+            var question_num = session.privateConversationData.question_num
             session.send("Q" + (question_num + 1));
             session.send(question[question_num])
             builder.Prompts.choice(session, "YES or NO", menu);
@@ -68,9 +87,9 @@ lib.dialog("20Q_question", [
     },
     (session, results) => {
         if (results.response) {
-            session.conversationData.score += menu[results.response.entity].score;
-            session.conversationData.question_num++;
-            if (session.conversationData.question_num >= 5) {
+            session.privateConversationData.score += menu[results.response.entity].score;
+            session.privateConversationData.question_num++;
+            if (session.privateConversationData.question_num >= 5) {
                 session.endDialog();
             }
         }
