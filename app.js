@@ -27,17 +27,25 @@ var bot = module.exports = new builder.UniversalBot(connector, [
         }
         if (!session.userData.isKnown) {
             session.beginDialog("firstTime");
+        } else {
+            session.send(session.userData.name + "さん　こんにちは！")
         }
     }
 ]);
 bot.dialog("firstTime", [
     (session, args, next) => {
+        session.send("はじめまして！");
+        builder.Prompts.text("あなたの名前は何ですか？")
+    },
+    (session, res, next) => {
+        session.userData.name = res.message.text;
         session.userData.isKnown = true;
         session.save();
-        session.send("はじめまして！");
-        session.send("私には様々な機能が実装されています。")
-        session.endDialog("どんな機能を持っているかを知りたい場合は「help」と入力してください。")
+
+        session.send(session.userData.name + "さん　よろしくお願いします！");
+        session.endDialog("私が持つ機能を知りたい場合は「help」と入力してください");
     }
+
 ]);
 
 bot.library(require('./dialogs/wikipedia').createLibrary());
