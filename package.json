@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "botbuilder": "^3.9.1",
+    "date-utils": "^1.2.21",
+    "node-schedule": "^1.2.5",
     "restify": "^5.2.0",
     "superagent": "^3.6.3"
   }
