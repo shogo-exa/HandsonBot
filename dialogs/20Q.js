@@ -3,10 +3,75 @@ const log = require('../log.js');
 
 var lib = new builder.Library('20Q');
 
-lib.dialog('/', [
-    (session, args, next) => {
+const question = [
+    "ゴルフボールより小さいですか？",
+    "丸いですか？",
+    "弾力はありますか？",
+    "食べることが出来ますか？",
+    "水に浸けても大丈夫ですか？"
+]
 
+const menu = {
+    "YES": {
+        score = 1
     },
+    "NO": {
+        score = -1
+    }
+}
+
+lib.dialog('20Q', [
+    (session, args, next) => {
+        // まだゲームは開始されていない
+        session.send("ノートパソコンかガムを思い浮かべてください");
+        session.send("始めます！");
+        session.conversationData.question_num = 0;
+        session.conversationData.score = 0;
+        session.beginDialog("20Q_question");
+    },
+    (session, args, next) => {
+        if (session.conversationData.score > 0) {
+            session.send("あなたがイメージしたのはガムですね！");
+            builder.Prompts.choice(session, "YES or NO!", menu);
+        } else if (session.conversationData.score < 0) {
+            session.send("あなたがイメージしたのはノートパソコンですね！");
+            builder.Prompts.choice(session, "YES or NO!", menu);
+        } else {
+            session.endConversation("あなたが何をイメージしているのか分からない...")
+        }
+    },
+    (session, results, next) => {
+        if (menu[results.response.entity].score == 1) {
+            session.endConversation("当たりました！");
+        } else if (menu[results.response.entity].score == -1) {
+            session.endConversation("外れました...");
+        }
+    }
+]).beginDialogAction("20QHelpAction", "wiki_20Q", {
+    matches: /^help$/i,
+});
+
+lib.dialog("20Q_question", [
+    (session, args) => {
+        // ゲームが正常に開始されている
+        if (session.conversationData.question_num) {
+            var question_num = session.conversationData.question_num
+            session.send("Q" + (question_num + 1));
+            session.send(question[question_num])
+            builder.Prompts.choice(session, "YES or NO", menu);
+        } else {
+            session.replaceDialog("20Q");
+        }
+    },
+    (session, results) => {
+        if (results.response) {
+            session.conversationData.score += menu[results.response.entity].score;
+            session.conversationData.question_num++;
+            if (session.conversationData.question_num >= 5) {
+                session.endDialog();
+            }
+        }
+    }
 ]);
 
 module.exports.createLibrary = function () {
