@@ -22,7 +22,7 @@ var bot = module.exports = new builder.UniversalBot(connector, [
     (session, args, next) => {
         if (session.message.text == "オブビリエイト") {
             session.userData = {};
-            session.endConversation();
+            session.endConversation("＼(゜ロ＼)ココハドコ? (／ロ゜)／アタシハダレ?");
             return;
         }
         if (!session.userData.isKnown) {
