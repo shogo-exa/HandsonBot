@@ -1,6 +1,7 @@
 // region ***** require *****
 const restify = require('restify');
 const builder = require('botbuilder');
+const scheduler = require('node-schedule');
 const log = require('./log')
 // endregion
 
@@ -54,4 +55,47 @@ bot.library(require('./dialogs/help').createLibrary());
 
 
 bot.on('conversationUpdate', function (message) {});
+//endregion
+
+//region ***** CustomAction の設定 *****
+bot.customAction({
+    matches: /^remind ([1-2]|)[0-9]:[0-9][0-9] (.+)$/i,
+    onSelectAction: (session, args, next) => {
+        // メッセージから指定時間を抽出するための正規表現
+        const timeRegExp = /([1-2]|)[0-9]:[0-9][0-9]/i;
+
+        // メッセージからキーワードを抽出するための正規表現
+        const msgExtractionRegExp = /remind ([1-2]|)[0-9]:[0-9][0-9] /i;
+
+        // 現在の日時を取得
+        var today = new Date();
+
+        // 時分を抽出する
+        var time = session.message.text.match(timeRegExp);
+        // 時間のみを抽出する
+        var hour = time.match(/^([1-2]|)[0-9]/);
+        // 分のみを抽出する
+        var min = time.match(/[0-9][0-9]$/);
+        // 予約時間を設定する
+        today.setHours(hour, min);
+
+        // リマインド時に使用するメッセージを抽出する
+        var message = session.message.text.replace(msgExtractionRegExp, "");
+
+        log.log("userRequest", session.message.text);
+        log.log("Reservation_time", today.toJSON());
+        log.log("Reservation_msg", message);
+
+        // 予約を登録する
+        scheduler.scheduledJobs({
+            year: today.getFullYear(),
+            month: today.getMonth(),
+            day: today.getDay(),
+            hour: today.getHours(),
+            minute: today.getMinutes()
+        }, () => {
+            session.send("リマインド：" + message);
+        });
+    }
+})
 //endregion
