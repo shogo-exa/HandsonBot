@@ -39,7 +39,12 @@ lib.dialog('search', [
             })
     }
 ]).triggerAction({
-    matches: [RegExp(triggerRegExp[0]), RegExp(triggerRegExp[1])]
+    matches: [RegExp(triggerRegExp[0]), RegExp(triggerRegExp[1])],
+    onSelectAction: (session, args, next) => {
+        session.beginDialog(args.action, args);
+    }
+}).beginDialogAction("WikipediaHelpAction", "wiki_help", {
+    matches: /^help$/i,
 });
 
 function ExtractionSearchWord(message) {

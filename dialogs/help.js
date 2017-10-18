@@ -5,15 +5,13 @@ var lib = new builder.Library('Help');
 
 const triggerRegExp = "^help$"
 
-lib.dialog('/', [
+lib.dialog('help_global', [
     (session, args, next) => {
-        session.send("私はこんなことが出来ます。");
-
         var replyData = new builder.Message(session);
         replyData.attachmentLayout(builder.AttachmentLayout.carousel);
         replyData.attachments([
             new builder.HeroCard(session)
-            .title('私が持つ機能')
+            .title('私はこんなことが出来ます。')
             .subtitle('help')
             .text('更に機能の詳細を知りたい場合は選択してください')
             .buttons([
@@ -22,30 +20,46 @@ lib.dialog('/', [
                 builder.CardAction.imBack(session, 'weather', '今日の天気')
             ])
         ]);
-        session.send(replyData);
+        builder.Prompts.text(session, replyData);
     },
     (session, res, next) => {
         switch (res.response) {
             case "wiki":
-                session.send("Wikipediaでキーワードの概要を検索します。");
-                session.send("wiki ボット");
-                session.send("と入力して頂くと、ボットとは何かを私が検索します。");
-                session.send("ボットについて教えて");
-                session.endConversation("と言っていただいても構いません。");
+                session.replaceDialog("help_wiki")
                 break;
-
             case "20Q":
-                session.endConversation("工事中(´・ω・｀)");
+                session.replaceDialog("help_20Q")
                 break;
 
             case "weather":
-                session.endConversation("工事中(´・ω・｀)");
+                session.replaceDialog("help_weather")
                 break;
         }
     }
 ]).triggerAction({
-    matches: [RegExp(triggerRegExp)]
+    matches: [RegExp(triggerRegExp)],
+    confirmPrompt: "私の機能一覧を表示します。現在の会話は終了しますがよろしいですか？"
 });
+
+lib.dialog("help_wiki", [
+    (session, args, next) => {
+        session.send("Wikipediaでキーワードの概要を検索します。");
+        session.send("wiki ボット");
+        session.send("と入力して頂くと、ボットとは何かを私が検索します。");
+        session.send("ボットについて教えて");
+        session.endDialog("と言っていただいても構いません。");
+    }
+])
+lib.dialog("help_20Q", [
+    (session, args, next) => {
+        session.endDialog("工事中(´・ω・｀)")
+    }
+])
+lib.dialog("help_weather", [
+    (session, args, next) => {
+        session.endDialog("工事中(´・ω・｀)")
+    }
+])
 
 module.exports.createLibrary = function () {
     return lib.clone();
