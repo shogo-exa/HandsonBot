@@ -73,11 +73,11 @@ bot.customAction({
         var today = new Date();
 
         // 時分を抽出する
-        var time = session.message.text.match(timeRegExp);
+        var time = session.message.text.match(timeRegExp)[0];
         log.log("user_time", time);
 
         // 時間のみを抽出する
-        var hour = time.match(/^([1-2]|)[0-9]/);
+        var hour = time.match(/^([1-2]|)[0-9]/)[0];
         // 分のみを抽出する
         var min = time.match(/[0-9][0-9]$/);
         // 予約時間を設定する
