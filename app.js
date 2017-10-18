@@ -35,7 +35,7 @@ var bot = module.exports = new builder.UniversalBot(connector, [
 bot.dialog("firstTime", [
     (session, args, next) => {
         session.send("はじめまして！");
-        builder.Prompts.text("あなたの名前は何ですか？")
+        builder.Prompts.text(session, "あなたの名前は何ですか？")
     },
     (session, res, next) => {
         session.userData.name = res.message.text;
