@@ -37,8 +37,8 @@ bot.dialog("firstTime", [
         session.send("はじめまして！");
         builder.Prompts.text(session, "あなたの名前は何ですか？")
     },
-    (session, res, next) => {
-        session.userData.name = res.message.text;
+    (session, result, next) => {
+        session.userData.name = results.response;
         session.userData.isKnown = true;
         session.save();
 
