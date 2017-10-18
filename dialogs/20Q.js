@@ -33,7 +33,6 @@ lib.dialog('20Q', [
                 session.send("始めます！");
                 session.privateConversationData.question_num = 0;
                 session.privateConversationData.score = 0;
-                session.save();
                 session.beginDialog("20Q_question");
                 break;
 
@@ -77,7 +76,7 @@ lib.dialog('20Q', [
 lib.dialog("20Q_question", [
     (session, args) => {
         // ゲームが正常に開始されている
-        if (session.privateConversationData.question_num) {
+        if (session.privateConversationData.hasOwnProperty("question_num")) {
             var question_num = session.privateConversationData.question_num
             session.send("Q" + (question_num + 1));
             session.send(question[question_num])
