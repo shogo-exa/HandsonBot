@@ -78,7 +78,7 @@ lib.dialog("20Q_question", [
         // ゲームが正常に開始されている
         if (session.privateConversationData.hasOwnProperty("question_num")) {
             var question_num = session.privateConversationData.question_num
-            session.send("Q" + (question_num + 1) + question[question_num]);
+            session.send("Q" + (question_num + 1) + ":" + question[question_num]);
             builder.Prompts.choice(session, "YES or NO!", menu);
         } else {
             session.send("ゲームに問題が有りました。")
@@ -91,8 +91,9 @@ lib.dialog("20Q_question", [
             session.privateConversationData.question_num++;
             if (session.privateConversationData.question_num >= 5) {
                 session.endDialog();
+            } else {
+                session.replaceDialog("20Q_question")
             }
-            session.replaceDialog("20Q_question")
         }
     }
 ]);
