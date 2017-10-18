@@ -97,9 +97,6 @@ lib.dialog("20Q_question", [
         }
     }
 ]);
-
-// lib.library(require("./help").createLibrary());
-
 module.exports.createLibrary = function () {
     return lib.clone();
 };
