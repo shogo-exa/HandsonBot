@@ -3,6 +3,8 @@ const restify = require('restify');
 const builder = require('botbuilder');
 const scheduler = require('node-schedule');
 const log = require('./log')
+const request = require('superagent');
+
 // endregion
 
 //region ***** Server セットアップ *****/
@@ -125,13 +127,25 @@ bot.customAction({
                 // minute: today.getMinutes(),
                 second: 30
             }, () => {
-                session.send("定期連絡");
+                session.send("今日の天気");
+                request.get('http://api.openweathermap.org/data/2.5/forecast')
+                    .query({
+                        id: '6415253',
+                        appid: 'afcb81f9414a3f217d66f92f3409e710',
+                    }).end((err, res) => {
+                        var weatherList = createWeatherData(res, 12);
+                        for (var weather in weatherList) {
+                            session.send("時間：" + weather.date)
+                            session.send("天気：" + weather.weather);
+                        }
+                    })
+
 
             }).on("canceled", () => {
-                session.send("定期連絡を停止しました。");
+                session.send("天気予報を停止しました。");
             });
             session.userData.isRegularly = true;
-            session.send("定期連絡を開始しました。")
+            session.send("天気予報を開始しました。")
         }
     }
 });
@@ -157,4 +171,21 @@ function createPrivateid(n) {
         r += CODE_TABLE.charAt(Math.floor(k * Math.random()));
     }
     return r;
+}
+
+function createWeatherData(data, hour) {
+    const INTERVAL = 3; // APIで取れる間隔が3時間
+    var list = data.list;
+    var ret = [];
+
+    for (var i = 0; i < hour / INTERVAL; i++) {
+        var weather = list[i].weather.main;
+        var date = list.dt_text;
+        ret.push({
+            weather,
+            date
+        });
+    }
+
+    return ret;
 }
