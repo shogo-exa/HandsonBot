@@ -90,7 +90,7 @@ bot.customAction({
         log.log("Reservation_msg", message);
 
         // 予約を登録する
-        scheduler.scheduleJob({
+        var reservation = scheduler.scheduleJob({
             year: today.getFullYear(),
             month: today.getMonth(),
             day: today.getDay(),
@@ -98,7 +98,26 @@ bot.customAction({
             minute: today.getMinutes()
         }, () => {
             session.send("リマインド：" + message);
+
+        }).on("scheduled", () => {
+            session.send("リマインドの登録が完了しました(ID:" + reservation.name + ")");
+
+        }).on("canceled", () => {
+            session.send("ID:" + reservation.name + "のリマインドをキャンセルしました。");
+
         });
+    }
+})
+
+bot.customAction({
+    matches: /^remind cancel (.+)$/i,
+    onSelectAction: (session, args, next) => {
+        const idExtractionRegExp = /^remind cancel /i
+        var jobId = session.message.text.replace(idExtractionRegExp, "");
+        if (!scheduler.cancelJob(jobId)) {
+            session.send("リマインドのキャンセルに失敗しました。");
+            session.send("IDを確認してください");
+        }
     }
 })
 //endregion
