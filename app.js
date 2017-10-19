@@ -98,14 +98,11 @@ bot.customAction({
             minute: today.getMinutes()
         }, () => {
             session.send("リマインド：" + message);
-        })
-        reservation.on("scheduled", () => {
-            session.send("リマインドの登録が完了しました(ID：" + reservationId + ")");
-        })
-        reservation.on("canceled", () => {
+        }).on("canceled", () => {
             session.send("リマインドをキャンセルしました。");
-
         });
+
+        session.send("リマインドを登録しました。(ID：" + reservationId + ")")
 
     }
 })
@@ -126,7 +123,6 @@ bot.customAction({
 
 function create_privateid(n) {
     var CODE_TABLE = "0123456789" +
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
         "abcdefghijklmnopqrstuvwxyz";
     var r = "";
     for (var i = 0, k = CODE_TABLE.length; i < n; i++) {
