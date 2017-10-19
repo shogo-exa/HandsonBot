@@ -110,7 +110,7 @@ bot.customAction({
 
 // 定期通知
 bot.customAction({
-    matches: /^\/weather$/i,
+    matches: /^weather$/i,
     onSelectAction: (session, args, next) => {
         // 定期処理を実行されているかを判定
         if (session.userData.isRegularly) {
@@ -126,6 +126,7 @@ bot.customAction({
                 second: 30
             }, () => {
                 session.send("定期連絡");
+
             }).on("canceled", () => {
                 session.send("定期連絡を停止しました。");
             });
@@ -133,7 +134,7 @@ bot.customAction({
             session.send("定期連絡を開始しました。")
         }
     }
-})
+});
 
 bot.customAction({
     matches: /^remind cancel (.+)$/i,
