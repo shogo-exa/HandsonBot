@@ -29,7 +29,7 @@ var bot = module.exports = new builder.UniversalBot(connector, [
         if (!session.userData.isKnown) {
             session.beginDialog("firstTime");
         } else {
-            session.send(session.userData.name + "さん　こんにちは！")
+            session.send(session.userData.name + "さん　こんにちは！");
         }
     }
 ]);
@@ -41,6 +41,7 @@ bot.dialog("firstTime", [
     (session, results, next) => {
         session.userData.name = results.response;
         session.userData.isKnown = true;
+        session.userData.id = createPrivateid(10);
 
         session.send(session.userData.name + "さん　よろしくお願いします！");
         session.endDialog("私が持つ機能を知りたい場合は「help」と入力してください");
@@ -57,11 +58,12 @@ bot.on('conversationUpdate', function (message) {});
 //endregion
 
 //region ***** CustomAction の設定 *****
+// リマインドの登録
 bot.customAction({
     matches: /^remind ([1-2]|)[0-9]:[0-9][0-9] (.+)$/i,
     onSelectAction: (session, args, next) => {
         log.log("userRequest", session.message.text);
-        const request = session.message.text.split(" ")
+        const request = session.message.text.split(" ");
         const TIME = 1;
         const MESSAGE = 2;
 
@@ -83,7 +85,7 @@ bot.customAction({
         // リマインド時に使用するメッセージを抽出する
         var message = request[MESSAGE];
 
-        const reservationId = create_privateid(5);
+        const reservationId = createPrivateid(5);
 
         log.log("Reservation_time", today.toJSON());
         log.log("Reservation_msg", message);
@@ -101,9 +103,35 @@ bot.customAction({
         }).on("canceled", () => {
             session.send("リマインドをキャンセルしました。");
         });
-
         session.send("リマインドを登録しました。(ID：" + reservationId + ")")
 
+    }
+});
+
+// 定期通知
+bot.customAction({
+    matches: /^\/weather$/i,
+    onSelectAction: (session, args, next) => {
+        // 定期処理を実行されているかを判定
+        if (session.userData.isRegularly) {
+            if (scheduler.cancelJob("regularly_" + session.userData.id)) {
+                session.userData.isRegularly = false;
+            } else {
+                session.send("定期連絡の停止に問題が有りました")
+            }
+        } else {
+            var reservation = scheduler.scheduleJob("regularly_" + session.userData.id, {
+                // hour: today.getHours(),
+                // minute: today.getMinutes(),
+                second: 30
+            }, () => {
+                session.send("定期連絡");
+            }).on("canceled", () => {
+                session.send("定期連絡を停止しました。");
+            });
+            session.userData.isRegularly = true;
+            session.send("定期連絡を開始しました。")
+        }
     }
 })
 
@@ -117,11 +145,10 @@ bot.customAction({
             session.send("名前を確認してください");
         }
     }
-})
+});
 //endregion
 
-
-function create_privateid(n) {
+function createPrivateid(n) {
     var CODE_TABLE = "0123456789" +
         "abcdefghijklmnopqrstuvwxyz";
     var r = "";
