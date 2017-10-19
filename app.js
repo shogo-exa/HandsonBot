@@ -45,7 +45,6 @@ bot.dialog("firstTime", [
         session.send(session.userData.name + "さん　よろしくお願いします！");
         session.endDialog("私が持つ機能を知りたい場合は「help」と入力してください");
     }
-
 ]);
 
 bot.library(require('./dialogs/wikipedia').createLibrary());
@@ -62,35 +61,36 @@ bot.customAction({
     matches: /^remind ([1-2]|)[0-9]:[0-9][0-9] (.+)$/i,
     onSelectAction: (session, args, next) => {
         log.log("userRequest", session.message.text);
-
-        // メッセージから指定時間を抽出するための正規表現
-        const timeRegExp = /([1-2]|)[0-9]:[0-9][0-9]/i;
-
-        // メッセージからキーワードを抽出するための正規表現
-        const msgExtractionRegExp = /remind ([1-2]|)[0-9]:[0-9][0-9] /i;
+        const request = session.message.text.split(" ")
+        const TIME = 1;
+        const MESSAGE = 2;
 
         // 現在の日時を取得
         var today = new Date();
 
         // 時分を抽出する
-        var time = session.message.text.match(timeRegExp)[0];
+        var time = request[TIME];
         log.log("user_time", time);
 
         // 時間のみを抽出する
-        var hour = time.match(/^([1-2]|)[0-9]/)[0];
+        var hour = time.split(":")[0];
         // 分のみを抽出する
-        var min = time.match(/[0-9][0-9]$/);
+        var min = time.split(":")[1];
+
         // 予約時間を設定する
         today.setHours(hour, min);
 
         // リマインド時に使用するメッセージを抽出する
-        var message = session.message.text.replace(msgExtractionRegExp, "");
+        var message = request[MESSAGE];
+
+        const reservationId = create_privateid(5);
 
         log.log("Reservation_time", today.toJSON());
         log.log("Reservation_msg", message);
+        log.log("Reservation_id", reservationId);
 
         // 予約を登録する
-        var reservation = scheduler.scheduleJob({
+        var reservation = scheduler.scheduleJob(reservationId, {
             year: today.getFullYear(),
             month: today.getMonth(),
             day: today.getDay(),
@@ -98,26 +98,39 @@ bot.customAction({
             minute: today.getMinutes()
         }, () => {
             session.send("リマインド：" + message);
-
-        }).on("scheduled", () => {
-            session.send("リマインドの登録が完了しました(ID:" + reservation.name + ")");
-
-        }).on("canceled", () => {
-            session.send("ID:" + reservation.name + "のリマインドをキャンセルしました。");
+        })
+        reservation.on("scheduled", () => {
+            session.send("リマインドの登録が完了しました(ID：" + reservationId + ")");
+        })
+        reservation.on("canceled", () => {
+            session.send("リマインドをキャンセルしました。");
 
         });
+
     }
 })
 
 bot.customAction({
     matches: /^remind cancel (.+)$/i,
     onSelectAction: (session, args, next) => {
-        const idExtractionRegExp = /^remind cancel /i
-        var jobId = session.message.text.replace(idExtractionRegExp, "");
+        var jobId = session.message.text.split(" ")[2];
+
         if (!scheduler.cancelJob(jobId)) {
             session.send("リマインドのキャンセルに失敗しました。");
-            session.send("IDを確認してください");
+            session.send("名前を確認してください");
         }
     }
 })
 //endregion
+
+
+function create_privateid(n) {
+    var CODE_TABLE = "0123456789" +
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+        "abcdefghijklmnopqrstuvwxyz";
+    var r = "";
+    for (var i = 0, k = CODE_TABLE.length; i < n; i++) {
+        r += CODE_TABLE.charAt(Math.floor(k * Math.random()));
+    }
+    return r;
+}
