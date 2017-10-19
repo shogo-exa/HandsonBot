@@ -176,7 +176,7 @@ function createPrivateid(n) {
 function createWeatherData(data, hour) {
     const INTERVAL = 3; // APIで取れる間隔が3時間
     log.log("weather_original", data);
-    var list = data.list;
+    var list = data.text.list;
     log.log("weather_list", list);
     var ret = [];
 
