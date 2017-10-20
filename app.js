@@ -110,7 +110,7 @@ bot.customAction({
     }
 });
 
-// 定期通知
+// 天気取得
 bot.customAction({
     matches: /^weather$/i,
     onSelectAction: (session, args, next) => {
@@ -139,8 +139,6 @@ bot.customAction({
                             session.send("天気：" + weather.weather);
                         }
                     })
-
-
             }).on("canceled", () => {
                 session.send("天気予報を停止しました。");
             });
@@ -150,6 +148,7 @@ bot.customAction({
     }
 });
 
+// 予約キャンセル
 bot.customAction({
     matches: /^remind cancel (.+)$/i,
     onSelectAction: (session, args, next) => {
@@ -173,14 +172,15 @@ function createPrivateid(n) {
     return r;
 }
 
-function createWeatherData(data, hour) {
+function createWeatherData(weatherData, hour) {
     const INTERVAL = 3; // APIで取れる間隔が3時間
-    log.log("weather_original", data);
+    log.log("weather_original", weatherData);
+    weatherData = JSON.parse(weatherData.text).list;
     var ret = [];
 
     for (var i = 0; i < hour / INTERVAL; i++) {
-        var weather = data.text.list[i].weather.main;
-        var date = data.text.list[i].dt_text;
+        var weather = weatherData[i].weather.main;
+        var date = weatherData[i].dt_text;
         ret.push({
             weather,
             date
