@@ -136,8 +136,8 @@ bot.customAction({
                         var weatherList = createWeatherData(res, 12);
                         log.log("weatherList", weatherList);
                         for (var i in weatherList) {
-                            log.log("weatherData", weather[i]);
-                            session.send(weather[i].date + "：" + weather[i].text);
+                            log.log("weatherData", weatherList[i]);
+                            session.send(weatherList[i].date + "：" + weatherList[i].text);
                         }
                     })
             }).on("canceled", () => {
