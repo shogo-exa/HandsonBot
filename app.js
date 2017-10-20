@@ -186,6 +186,6 @@ function createWeatherData(weatherData, hour) {
             date
         });
     }
-    log.log("weather_result", res)
+    log.log("weather_result", ret)
     return ret;
 }
