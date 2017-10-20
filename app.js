@@ -175,13 +175,13 @@ function createWeatherData(weatherData, hour) {
     const INTERVAL = 3; // APIで取れる間隔が3時間
     var weatherList = JSON.parse(weatherData.text);
     log.log("weather_data", weatherList);
-    weatherList = weatherList.text;
+    weatherList = weatherList.list;
     log.log("weather_List", weatherList);
     var ret = [];
 
     for (var i = 0; i < hour / INTERVAL; i++) {
-        var weather = weatherData[i].weather.main;
-        var date = weatherData[i].dt_text;
+        var weather = weatherList[i].weather.main;
+        var date = weatherList[i].dt_text;
         log.log("weather", weather);
         log.log("date", date);
         ret.push({
