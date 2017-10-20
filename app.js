@@ -134,9 +134,10 @@ bot.customAction({
                         appid: 'afcb81f9414a3f217d66f92f3409e710',
                     }).end((err, res) => {
                         var weatherList = createWeatherData(res, 12);
-                        for (var weather in weatherList) {
-                            log.log("weatherData", weather);
-                            session.send(weather.date + "：" + weather.weather);
+                        log.log("weatherList", weatherList);
+                        for (var i in weatherList) {
+                            log.log("weatherData", weather[i]);
+                            session.send(weather[i].date + "：" + weather[i].text);
                         }
                     })
             }).on("canceled", () => {
@@ -178,14 +179,10 @@ function createWeatherData(weatherData, hour) {
     var ret = [];
 
     for (var i = 0; i < hour / INTERVAL; i++) {
-        var weather = weatherList[i].weather[0].main;
-        var date = weatherList[i].dt_txt;
-        log.log("weather", weather);
-        log.log("date", date);
-        ret.push({
-            "weather": weather,
-            "date": date
-        });
+        var weather;
+        weather.text = weatherList[i].weather[0].main;
+        weather.date = weatherList[i].dt_txt;
+        ret.push(weater);
     }
     return ret;
 }
