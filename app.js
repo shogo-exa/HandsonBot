@@ -179,7 +179,7 @@ function createWeatherData(weatherData, hour) {
     var ret = [];
 
     for (var i = 0; i < hour / INTERVAL; i++) {
-        var weather;
+        var weather = {};
         weather.text = weatherList[i].weather[0].main;
         weather.date = weatherList[i].dt_txt;
         ret.push(weater);
