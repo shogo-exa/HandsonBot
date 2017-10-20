@@ -135,8 +135,8 @@ bot.customAction({
                     }).end((err, res) => {
                         var weatherList = createWeatherData(res, 12);
                         for (var weather in weatherList) {
-                            session.send("時間：" + weather.date)
-                            session.send("天気：" + weather.weather);
+                            log.log("weather_data", weather);
+                            session.send(weather.date + "：" + weather.weather);
                         }
                     })
             }).on("canceled", () => {
@@ -186,6 +186,6 @@ function createWeatherData(weatherData, hour) {
             date
         });
     }
-
+    log.log("weather_result", res)
     return ret;
 }
