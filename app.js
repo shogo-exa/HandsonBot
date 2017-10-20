@@ -179,8 +179,8 @@ function createWeatherData(weatherData, hour) {
     for (var i = 0; i < hour / INTERVAL; i++) {
         var weather = weatherList[i].weather[0].main;
         var date = weatherList[i].dt_text;
-        // log.log("weather", weather);
-        // log.log("date", date);
+        log.log("weather", weather);
+        log.log("date", date);
         ret.push({
             "weather": weather,
             "date": date
