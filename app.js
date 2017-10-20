@@ -27,6 +27,11 @@ var bot = module.exports = new builder.UniversalBot(connector, [
             session.userData = {};
             session.endConversation("＼(゜ロ＼)ココハドコ? (／ロ゜)／アタシハダレ?");
             return;
+        } else if (session.message.text == "myData") {
+            for (var k in session.userData) {
+                session.send(k + ": " + session.userData[k]);
+            }
+            return;
         }
         if (!session.userData.isKnown) {
             session.beginDialog("firstTime");
