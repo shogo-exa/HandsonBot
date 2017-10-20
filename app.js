@@ -173,8 +173,10 @@ function createPrivateid(n) {
 
 function createWeatherData(weatherData, hour) {
     const INTERVAL = 3; // APIで取れる間隔が3時間
-    weatherData = JSON.parse(weatherData.text).list;
-    log.log("weather_data", weatherData);
+    var weatherList = JSON.parse(weatherData.text);
+    log.log("weather_data", weatherList);
+    weatherList = weatherList.text;
+    log.log("weather_List", weatherList);
     var ret = [];
 
     for (var i = 0; i < hour / INTERVAL; i++) {
