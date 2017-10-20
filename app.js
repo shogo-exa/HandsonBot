@@ -176,14 +176,14 @@ function createWeatherData(weatherData, hour) {
     var weatherList = JSON.parse(weatherData.text);
     log.log("weather_data", weatherList);
     weatherList = weatherList.list;
-    log.log("weather_List", weatherList);
+    // log.log("weather_List", weatherList);
     var ret = [];
 
     for (var i = 0; i < hour / INTERVAL; i++) {
         var weather = weatherList[i].weather.main;
         var date = weatherList[i].dt_text;
-        log.log("weather", weather);
-        log.log("date", date);
+        // log.log("weather", weather);
+        // log.log("date", date);
         ret.push({
             "weather": weather,
             "date": date
