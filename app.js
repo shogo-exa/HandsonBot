@@ -182,8 +182,8 @@ function createWeatherData(weatherData, hour) {
         var weather = weatherData[i].weather.main;
         var date = weatherData[i].dt_text;
         ret.push({
-            weather,
-            date
+            weather: weather,
+            date: date
         });
     }
     log.log("weather_result", ret)
