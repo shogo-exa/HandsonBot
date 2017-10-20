@@ -135,7 +135,6 @@ bot.customAction({
                     }).end((err, res) => {
                         var weatherList = createWeatherData(res, 12);
                         for (var weather in weatherList) {
-                            log.log("weather_data", weather);
                             session.send(weather.date + "：" + weather.weather);
                         }
                     })
@@ -188,6 +187,5 @@ function createWeatherData(weatherData, hour) {
             "date": date
         });
     }
-    log.log("weather_result", ret)
     return ret;
 }
