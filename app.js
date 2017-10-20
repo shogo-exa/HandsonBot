@@ -121,9 +121,7 @@ bot.customAction({
     onSelectAction: (session, args, next) => {
         // 定期処理を実行されているかを判定
         if (session.userData.isRegularly) {
-            if (scheduler.cancelJob("regularly_" + session.userData.id)) {
-                session.userData.isRegularly = false;
-            } else {
+            if (!scheduler.cancelJob("regularly_" + session.userData.id)) {
                 session.send("定期連絡の停止に問題が有りました")
             }
         } else {
@@ -147,6 +145,7 @@ bot.customAction({
                     })
             }).on("canceled", () => {
                 session.send("天気予報を停止しました。");
+                session.userData.isRegularly = false;
             });
             session.userData.isRegularly = true;
             session.send("天気予報を開始しました。")
