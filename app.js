@@ -57,7 +57,6 @@ bot.dialog("firstTime", [
 
 bot.library(require('./dialogs/wikipedia').createLibrary());
 bot.library(require('./dialogs/20Q').createLibrary());
-bot.library(require('./dialogs/SnowWhite').createLibrary());
 bot.library(require('./dialogs/help').createLibrary());
 
 
