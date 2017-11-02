@@ -122,7 +122,7 @@ bot.customAction({
         // 定期処理を実行されているかを判定
         if (session.userData.isRegularly) {
             if (!scheduler.cancelJob("regularly_" + session.userData.id)) {
-                session.send("定期連絡の停止に問題が有りました")
+                session.send("天気予報は開始されていません。")
             }
         } else {
             var reservation = scheduler.scheduleJob("regularly_" + session.userData.id, {
