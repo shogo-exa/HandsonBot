@@ -2,7 +2,6 @@
 const restify = require('restify');
 const builder = require('botbuilder');
 const scheduler = require('node-schedule');
-const log = require('./log')
 const request = require('superagent');
 
 // endregion
