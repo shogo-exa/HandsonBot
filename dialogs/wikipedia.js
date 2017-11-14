@@ -1,13 +1,15 @@
 const builder = require('botbuilder');
 const log = require('../log.js');
-// const request = require('request');
 const request = require('superagent');
 const async = require('async');
 
-
+// この機能にwikipediaという名前をつける
 var lib = new builder.Library('wikipedia');
 
+// 機能を実行する為のキーワードの正規表現
 const triggerRegExp = ["(.+)について(教えて|おしえて)$", "^wiki( |　)(.+)"]
+
+// ユーザーの文章から、調べたい検索ワードを抽出する為の正規表現
 const ExtractionRegExp = ["について(教えて|おしえて)$", "^wiki( |　)"]
 
 lib.dialog('search', [
@@ -15,7 +17,7 @@ lib.dialog('search', [
         // 検索ワードを取得する
         const searchWord = ExtractionSearchWord(session.message.text);
 
-        // リクエスト情報を作成
+        // wikipediaのapiを実行する
         request.get('https://ja.wikipedia.org/w/api.php')
             .query({
                 format: 'json',
@@ -38,17 +40,23 @@ lib.dialog('search', [
                 session.endDialog();
             })
     }
+
+    // この機能を実行するためのトリガーを定義
 ]).triggerAction({
     matches: [RegExp(triggerRegExp[0]), RegExp(triggerRegExp[1])],
     onSelectAction: (session, args, next) => {
         session.beginDialog(args.action, args);
     }
+
+    //wikiに関するヘルプを実行する
 }).beginDialogAction("WikipediaHelpAction", "wiki_help", {
     matches: /^help$/i,
 });
 
+// 検索ワードを取り出す為の関数
 function ExtractionSearchWord(message) {
     for (var regExp of ExtractionRegExp) {
+        // ユーザーのメッセージから検索ワード以外の文字列を空文字と置換して検索ワードを取り出す
         message = message.replace(RegExp(regExp), "");
     }
     log.console("search_message", message);
