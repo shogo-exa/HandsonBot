@@ -74,7 +74,7 @@ bot.dialog("firstTime", [
 
         // 挨拶をする
         session.send(session.userData.name + "さん　よろしくお願いします！");
-        session.endDialog("私が持つ機能を知りたい場合は「help」と入力してください");
+        session.endConversation("私が持つ機能を知りたい場合は「help」と入力してください");
     }
 ]);
 
