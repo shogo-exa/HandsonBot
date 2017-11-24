@@ -1,6 +1,7 @@
 // region ***** require *****
+// 必要な外部機能を定義
 const restify = require('restify');
-const builder = require('botbuilder');
+const builder = require('botbuilder'); // MBF本体のライブラリ
 const scheduler = require('node-schedule');
 const log = require('./log')
 const request = require('superagent');
@@ -24,6 +25,7 @@ server.post('/', connector.listen()); // 例：https://xxx.co.jp/
 
 // チャットを受け付けた時の基本的な応答を定義する
 // 会話が初期状態の時、ここからはじまる
+// ダイアログスタックの一番底にあるもの
 var bot = module.exports = new builder.UniversalBot(connector, [
     (session, args, next) => {
 
@@ -43,12 +45,12 @@ var bot = module.exports = new builder.UniversalBot(connector, [
             return;
         }
         //ユーザーと会話をするのが初めてなのかどうかを判定
-        if (!session.userData.isKnown) {
-            // 初めてのユーザーなので、情報を提供してもらう
-            session.beginDialog("firstTime");
-        } else {
+        if (session.userData.isKnown) {
             // すでに知っている場合は挨拶をする
             session.send(session.userData.name + "さん　こんにちは！");
+        } else {
+            // 初めてのユーザーなので、情報を提供してもらう
+            session.beginDialog("firstTime");
         }
     }
 ]);

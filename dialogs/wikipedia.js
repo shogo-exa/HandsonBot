@@ -44,6 +44,8 @@ lib.dialog('search', [
     // この機能を実行するためのトリガーを定義
 ]).triggerAction({
     matches: [RegExp(triggerRegExp[0]), RegExp(triggerRegExp[1])],
+    // デフォルトでは、ダイアログスタックが全て初期化されるため
+    // それを回避する為の定義
     onSelectAction: (session, args, next) => {
         session.beginDialog(args.action, args);
     }
