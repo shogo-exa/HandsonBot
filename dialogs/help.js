@@ -49,23 +49,23 @@ lib.dialog('help_global', [
 lib.dialog("help_wiki", [
     (session, args, next) => {
         session.send("Wikipediaでキーワードの概要を検索します。");
-        session.send("wiki ボット");
-        session.send("と入力して頂くと、ボットとは何かを私が検索します。");
-        session.send("ボットについて教えて");
-        session.endDialog("と言っていただいても構いません。");
+        session.send("wiki Bot");
+        session.send("と入力して頂くと、Botとは何かを私が検索します。");
     }
 ])
 
 // 20Qのヘルプを定義する
 lib.dialog("help_20Q", [
     (session, args, next) => {
-        session.endDialog("工事中(´・ω・｀)")
+        session.send("ゲームの20Qで遊べます");
+        session.send("20Q と入力すると開始します");
     }
 ])
 // 天気予報のヘルプを定義する
 lib.dialog("help_weather", [
     (session, args, next) => {
-        session.endDialog("工事中(´・ω・｀)")
+        session.send("毎日８時に天気予報を取得します。");
+        session.send("weatherと入力すると開始します。");
     }
 ])
 
