@@ -1,5 +1,4 @@
 const builder = require('botbuilder');
-const log = require('../log.js');
 
 // このライブラリに20Qという名前をつける
 var lib = new builder.Library('20Q');
@@ -128,8 +127,8 @@ lib.dialog("20Q_question", [
             //現在の質問番号を加算する
             session.privateConversationData.question_num++;
 
-            // 質問番号が5以上の場合すべての質問をしたことになる
-            if (session.privateConversationData.question_num >= 5) {
+            // 全て質問したかをチェック
+            if (session.privateConversationData.question_num >= question.length) {
                 // 質問するダイアログ終了する
                 session.endDialog();
 

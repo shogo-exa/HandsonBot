@@ -3,7 +3,6 @@
 const restify = require('restify');
 const builder = require('botbuilder'); // MBF本体のライブラリ
 const scheduler = require('node-schedule');
-const log = require('./log')
 const request = require('superagent');
 
 // endregion
@@ -101,7 +100,6 @@ bot.customAction({
 
     // 呼び出された時の処理
     onSelectAction: (session, args, next) => {
-        log.log("userRequest", session.message.text);
         const request = session.message.text.split(" ");
         const TIME = 1;
         const MESSAGE = 2;
@@ -111,7 +109,6 @@ bot.customAction({
 
         // 時分を抽出する
         var time = request[TIME];
-        log.log("user_time", time);
 
         // 時間のみを抽出する
         var hour = time.split(":")[0];
@@ -126,10 +123,6 @@ bot.customAction({
 
         // キャンセルで指定するようのidを作成
         const reservationId = createPrivateid(5);
-
-        log.log("Reservation_time", today.toJSON());
-        log.log("Reservation_msg", message);
-        log.log("Reservation_id", reservationId);
 
         // 予約を登録する
         var reservation = scheduler.scheduleJob(reservationId, {
@@ -176,9 +169,7 @@ bot.customAction({
                     }).end((err, res) => {
                         // ユーザーに送る天気情報を作成する
                         var weatherList = createWeatherData(res, 12);
-                        log.log("weatherList", weatherList);
                         for (var i in weatherList) {
-                            log.log("weatherData", weatherList[i]);
                             session.send(weatherList[i].date + "：" + weatherList[i].text);
                         }
                     })

@@ -1,5 +1,4 @@
 const builder = require('botbuilder');
-const log = require('../log.js');
 const request = require('superagent');
 const async = require('async');
 
@@ -31,7 +30,6 @@ lib.dialog('search', [
             }).end((err, res) => {
                 // 検索結果は文字列として処理されているのでJSON形式に変換する
                 var pages = JSON.parse(res.text).query.pages;
-                log.log("wiki_parse", pages)
                 var results = [];
                 for (var id in pages) {
                     session.send(pages[id].title);
@@ -61,7 +59,6 @@ function ExtractionSearchWord(message) {
         // ユーザーのメッセージから検索ワード以外の文字列を空文字と置換して検索ワードを取り出す
         message = message.replace(RegExp(regExp), "");
     }
-    log.console("search_message", message);
 
     return message;
 }

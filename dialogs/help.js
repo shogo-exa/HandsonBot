@@ -1,5 +1,4 @@
 const builder = require('botbuilder');
-const log = require('../log.js');
 
 // この機能の名前を定義
 var lib = new builder.Library('Help');
@@ -21,7 +20,6 @@ lib.dialog('help_global', [
         builder.Prompts.choice(session, "詳しく知りたい機能を選んでください", func);
     },
     (session, res, next) => {
-        log.log("ユーザーが選んだ", res.response)
 
         // ユーザーが選択した機能に振り分ける
         switch (res.response.entity) {
@@ -43,7 +41,6 @@ lib.dialog('help_global', [
     // デフォルトでは、ダイアログスタックが全て初期化されるため
     // それを回避する為の定義
     onSelectAction: (session, args, next) => {
-        log.log("triggerAction args", args);
         session.beginDialog(args.action, args);
     }
 });
@@ -51,7 +48,6 @@ lib.dialog('help_global', [
 // wikiのヘルプを定義する
 lib.dialog("help_wiki", [
     (session, args, next) => {
-        log.log("wiki_help", "")
         session.send("Wikipediaでキーワードの概要を検索します。");
         session.send("wiki ボット");
         session.send("と入力して頂くと、ボットとは何かを私が検索します。");
@@ -63,14 +59,12 @@ lib.dialog("help_wiki", [
 // 20Qのヘルプを定義する
 lib.dialog("help_20Q", [
     (session, args, next) => {
-        log.log("20q_help", "")
         session.endDialog("工事中(´・ω・｀)")
     }
 ])
 // 天気予報のヘルプを定義する
 lib.dialog("help_weather", [
     (session, args, next) => {
-        log.log("weather_help", "")
         session.endDialog("工事中(´・ω・｀)")
     }
 ])
