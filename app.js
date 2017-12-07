@@ -44,6 +44,7 @@ var bot = module.exports = new builder.UniversalBot(connector, [
             return;
         }
         //ユーザーと会話をするのが初めてなのかどうかを判定
+        //初回時はisKownというパラメータは存在しないため、undefinedでfalseになる
         if (session.userData.isKnown) {
             // すでに知っている場合は挨拶をする
             session.send(session.userData.name + "さん　こんにちは！");
@@ -77,7 +78,10 @@ bot.dialog("firstTime", [
         session.send(session.userData.name + "さん　よろしくお願いします！");
         session.endConversation("私が持つ機能を知りたい場合は「help」と入力してください");
     }
-]);
+]).triggerAction({
+    matches: "hello",
+    confirmPrompt: "ok?"
+});
 
 // wikipedia検索機能を定義したファイルを読み込む
 bot.library(require('./dialogs/wikipedia').createLibrary());
