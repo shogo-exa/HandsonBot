@@ -52,7 +52,7 @@ lib.dialog("help_wiki", [
     (session, args, next) => {
         session.send("Wikipediaでキーワードの概要を検索します。");
         session.send("wiki Bot");
-        session.send("と入力して頂くと、Botとは何かを私が検索します。");
+        session.endConversation("と入力して頂くと、Botとは何かを私が検索します。");
     }
 ])
 
@@ -60,14 +60,14 @@ lib.dialog("help_wiki", [
 lib.dialog("help_20Q", [
     (session, args, next) => {
         session.send("ゲームの20Qで遊べます");
-        session.send("20Q と入力すると開始します");
+        session.endConversation("20Q と入力すると開始します");
     }
 ])
 // 天気予報のヘルプを定義する
 lib.dialog("help_weather", [
     (session, args, next) => {
         session.send("毎日８時に天気予報を取得します。");
-        session.send("weatherと入力すると開始します。");
+        session.endConversation("weatherと入力すると開始します。");
     }
 ])
 
