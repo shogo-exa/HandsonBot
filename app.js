@@ -79,7 +79,7 @@ bot.dialog("firstTime", [
         session.endConversation("私が持つ機能を知りたい場合は「help」と入力してください");
     }
 ]).triggerAction({
-    matches: "hello",
+    matches: /^hello$/i,
     confirmPrompt: "ok?"
 });
 
