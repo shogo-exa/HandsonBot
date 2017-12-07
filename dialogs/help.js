@@ -38,6 +38,8 @@ lib.dialog('help_global', [
     // この機能を実行するためのトリガーを定義
 ]).triggerAction({
     matches: RegExp(triggerRegExp),
+    confirmPrompt: "This will cancel your current request. Are you sure?",
+
     // デフォルトでは、ダイアログスタックが全て初期化されるため
     // それを回避する為の定義
     onSelectAction: (session, args, next) => {
